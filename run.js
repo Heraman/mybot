@@ -40,6 +40,7 @@ const pino = require('pino');
 const readline = require("readline");
 const fs = require('fs');
 const crypto = require("crypto")
+const { useMongoAuthState } = require('session')
 const path = require("path")
 
 async function getFileType(buffer) {
@@ -87,7 +88,7 @@ async function clientstart() {
     const {
         state,
         saveCreds
-    } = await useMultiFileAuthState(`./session`)
+    } = await useMongoAuthState(process.env.DATABASE_URL, 'session')
     const client = makeWASocket({
         printQRInTerminal: !usePairingCode,
         syncFullHistory: true,
